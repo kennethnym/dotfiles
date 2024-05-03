@@ -97,22 +97,15 @@ function setup_plugins()
 		},
 	})
 
-	require("rose-pine").setup({
-		styles = {
-			italic = false,
-		},
-		highlight_groups = { EndOfBuffer = { fg = "base" } },
-	})
-
 	require("auto-dark-mode").setup({
 		set_dark_mode = function()
-			vim.api.nvim_set_option("background", "dark")
-			vim.cmd("colorscheme nightfox")
+			vim.opt.background = "dark"
+			vim.cmd("colorscheme duskfox")
 		end,
 
 		set_light_mode = function()
-			vim.api.nvim_set_option("background", "light")
-			vim.cmd("colorscheme dayfox")
+			vim.opt.background = "light"
+			vim.cmd("colorscheme dawnfox")
 		end,
 	})
 
@@ -200,6 +193,7 @@ function setup_plugins()
 
 	require("lualine").setup({
 		options = {
+			theme = "auto",
 			icons_enabled = true,
 			component_separators = "",
 			section_separators = { left = "", right = "" },
@@ -326,6 +320,14 @@ function setup_plugins()
 	})
 
 	require("gitsigns").setup({
+		signs = {
+			add = { text = "┃" },
+			change = { text = "┃" },
+			delete = { text = "_" },
+			topdelete = { text = "‾" },
+			changedelete = { text = "~" },
+			untracked = { text = "┆" },
+		},
 		on_attach = function(bufnr)
 			local gitsigns = require("gitsigns")
 
@@ -359,8 +361,6 @@ function setup_plugins()
 end
 
 function config_vim()
-	vim.cmd("colorscheme nightfox")
-
 	vim.opt.tabstop = 2
 	vim.opt.shiftwidth = 2
 	vim.opt.number = true
@@ -391,7 +391,6 @@ end
 
 PLUGINS = {
 	{ "EdenEast/nightfox.nvim" },
-	{ "rose-pine/neovim" },
 	{ "shortcuts/no-neck-pain.nvim" },
 	{ "nvim-tree/nvim-web-devicons" },
 	{ "nvim-tree/nvim-tree.lua" },
