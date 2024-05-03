@@ -10,7 +10,7 @@ $character"""
 
 [directory]
 format = '[󰝰  $path]($style)'
-style = "bold blue"
+style = "bold green"
 
 [character]
 success_symbol = "[╰─（✿ ͡◕ ᴗ◕\\)つ━━✫・*。](dimmed)"
@@ -22,14 +22,14 @@ format = "  [  $branch]($style)"
 style = "yellow"
 
 [git_status]
-format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)"
+format = "[[( [::](dimmed) $conflicted$untracked$modified$staged$renamed$deleted)](blue) ($ahead_behind$stashed)]($style)"
 style = "cyan"
-conflicted = "​"
-untracked = "​"
-modified = "​"
-staged = "​"
-renamed = "​"
-deleted = "​"
+conflicted = " "
+untracked = "󰰨 "
+modified = "󰯲 "
+staged = "󰰢 "
+renamed = "󰰟 "
+deleted = "󰯵 "
 stashed = "≡"
 
 [git_state]
