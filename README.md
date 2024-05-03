@@ -2,23 +2,7 @@ my dotfiles. includes:
 
 - [starship](https://starship.rs)
 
-# screenshots
+# starship
 
-## starship
-
-Normal:
-
-![](./screenshots/starship/normal.png)
-
-Error:
-
-![](./screenshots/starship/error.png)
-
-Git:
-
-![](./screenshots/starship/git.png)
-
-Timer:
-
-![](./screenshots/starship/timer.png)
+![](./screenshots/starship.png)
 
