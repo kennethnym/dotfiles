@@ -6,11 +6,19 @@ my dotfiles. includes:
 
 ## starship
 
-Normal: ![](./screenshots/starhip/normal.png)
+Normal:
 
-Error: ![](./screenshots/starship/error.png)
+![](./screenshots/starhip/normal.png)
 
-Git: ![](./screenshots/starship/git.png)
+Error:
 
-Timer: ![](./screenshots/starship/timer.png)
+![](./screenshots/starship/error.png)
+
+Git:
+
+![](./screenshots/starship/git.png)
+
+Timer:
+
+![](./screenshots/starship/timer.png)
 
