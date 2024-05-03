@@ -8,7 +8,7 @@ my dotfiles. includes:
 
 Normal:
 
-![](./screenshots/starhip/normal.png)
+![](./screenshots/starship/normal.png)
 
 Error:
 
