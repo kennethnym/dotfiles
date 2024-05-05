@@ -100,12 +100,12 @@ function setup_plugins()
 	require("auto-dark-mode").setup({
 		set_dark_mode = function()
 			vim.opt.background = "dark"
-			vim.cmd("colorscheme duskfox")
+			vim.cmd("colorscheme catppuccin-mocha")
 		end,
 
 		set_light_mode = function()
 			vim.opt.background = "light"
-			vim.cmd("colorscheme dawnfox")
+			vim.cmd("colorscheme catppuccin-latte")
 		end,
 	})
 
@@ -374,6 +374,20 @@ function config_vim()
 		extension = {
 			typ = "typst",
 		},
+
+		filename = {
+			["Dockerfile"] = "dockerfile",
+			["docker-compose.yml"] = "yaml.docker-compose",
+			["docker-compose.yaml"] = "yaml.docker-compose",
+			["compose.yml"] = "yaml.docker-compose",
+			["compose.yaml"] = "yaml.docker-compose",
+		},
+
+		pattern = {
+			["Dockerfile.*"] = "dockerfile",
+			["docker%-compose%b..yml"] = "yaml.docker-compose",
+			["compose%b..yml"] = "yaml.docker-compose",
+		},
 	})
 
 	local augroup = vim.api.nvim_create_augroup
@@ -384,13 +398,20 @@ function config_vim()
 		command = ":FormatWrite",
 	})
 
-	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+	vim.diagnostic.config({
 		virtual_text = false,
+		update_in_insert = true,
 	})
+	local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
+	for type, icon in pairs(signs) do
+		local hl = "DiagnosticSign" .. type
+		vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+	end
 end
 
 PLUGINS = {
 	{ "EdenEast/nightfox.nvim" },
+	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 	{ "shortcuts/no-neck-pain.nvim" },
 	{ "nvim-tree/nvim-web-devicons" },
 	{ "nvim-tree/nvim-tree.lua" },
