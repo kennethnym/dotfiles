@@ -25,4 +25,14 @@ end)
 config.font = wezterm.font("mononoki")
 config.font_size = 15
 
+config.use_fancy_tab_bar = false
+config.tab_bar_at_bottom = true
+
+config.window_padding = {
+	left = "1cell",
+	right = "1cell",
+	top = 0,
+	bottom = 0,
+}
+
 return config

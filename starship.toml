@@ -14,7 +14,7 @@ style = "bold green"
 
 [character]
 success_symbol = "[╰─（✿ ◕ ᴗ◕\\)つ━━✫・*。](dimmed)"
-error_symbol = "[╰─](dimmed)[ Ψ\\(`_´ # \\)↝](red)"
+error_symbol = "[╰─](dimmed)[ Ψ\\(`_´ # \\)↝ ](red)"
 vimcmd_symbol = "[❮](green)"
 
 [git_branch]
