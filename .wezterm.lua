@@ -22,8 +22,8 @@ wezterm.on("window-config-reloaded", function(window, pane)
 	end
 end)
 
-config.font = wezterm.font("mononoki")
-config.font_size = 15
+config.font = wezterm.font("SF Mono")
+config.font_size = 14
 
 config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = true

@@ -66,6 +66,7 @@ function define_keymaps()
 	vim.keymap.set("n", "<space>F", builtin.find_files, {})
 	vim.keymap.set("n", "<space>g", builtin.live_grep, {})
 	vim.keymap.set("n", "<space>b", builtin.buffers, {})
+	vim.keymap.set("n", "<space>r", builtin.lsp_references, {})
 end
 
 function setup_plugins()
@@ -180,6 +181,19 @@ function setup_plugins()
 		dartls = {
 			cmd = { "dart", "language-server", "--protocol=lsp" },
 		},
+
+		vtsls = {
+			settings = {
+				typescript = {
+					updateImportsOnFileMove = "prompt",
+					preferences = {
+						preferTypeOnlyAutoImports = true,
+						useAliasesForRenames = false,
+						renameShorthandProperties = false,
+					},
+				},
+			},
+		},
 	}
 
 	require("mason").setup()
@@ -229,7 +243,12 @@ function setup_plugins()
 		tabline = {},
 		winbar = {
 			lualine_a = {},
-			lualine_b = { "filename" },
+			lualine_b = {
+				{
+					"filename",
+					path = 1,
+				},
+			},
 			lualine_c = {},
 			lualine_x = { "searchcount", "encoding", "diagnostics" },
 			lualine_y = { "filetype" },
@@ -260,6 +279,7 @@ function setup_plugins()
 			cpp = { require("formatter.filetypes.cpp").clangformat },
 			dart = { require("formatter.filetypes.dart").dartformat },
 			python = { require("formatter.filetypes.python").black },
+			go = { require("formatter.filetypes.go").goimports },
 		},
 	})
 
