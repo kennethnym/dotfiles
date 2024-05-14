@@ -31,7 +31,6 @@ function define_keymaps()
 	vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
 	vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
 	vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist)
-	vim.keymap.set("n", "<space>a", vim.lsp.buf.code_action)
 
 	-- Use LspAttach autocommand to only map the following keys
 	-- after the language server attaches to the current buffer
@@ -46,6 +45,7 @@ function define_keymaps()
 			local opts = { buffer = ev.buf }
 			vim.keymap.set("n", "<space>D", vim.lsp.buf.declaration, opts)
 			vim.keymap.set("n", "<space>d", vim.lsp.buf.definition, opts)
+			vim.keymap.set({ "n", "v" }, "<space>a", vim.lsp.buf.code_action, opts)
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 			vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
 			vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
@@ -55,7 +55,6 @@ function define_keymaps()
 				print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 			end, opts)
 			vim.keymap.set("n", "<space>r", vim.lsp.buf.rename, opts)
-			vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts)
 			vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
 
 			vim.keymap.set("n", "<space>h", ":ClangdSwitchSourceHeader<CR>", { noremap = true })
@@ -412,10 +411,23 @@ function config_vim()
 
 	local augroup = vim.api.nvim_create_augroup
 	local autocmd = vim.api.nvim_create_autocmd
+
 	augroup("__formatter__", { clear = true })
 	autocmd("BufWritePost", {
 		group = "__formatter__",
 		command = ":FormatWrite",
+	})
+
+	augroup("__indentation__", { clear = true })
+	autocmd("FileType", {
+		group = "__indentation__",
+		callback = function(opts)
+			local filetype = vim.bo[opts.buf].filetype
+			if filetype == "go" then
+				vim.opt.tabstop = 4
+				vim.opt.shiftwidth = 4
+			end
+		end,
 	})
 
 	vim.diagnostic.config({
