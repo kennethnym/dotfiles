@@ -95,6 +95,10 @@ function setup_plugins()
 			-- Instead of true it can also be a list of languages
 			additional_vim_regex_highlighting = false,
 		},
+
+		autotag = {
+			enable = true,
+		},
 	})
 
 	require("auto-dark-mode").setup({
@@ -257,6 +261,7 @@ function setup_plugins()
 		extensions = {},
 	})
 
+	local util = require("formatter.util")
 	require("formatter").setup({
 		filetype = {
 			javascript = {
@@ -274,11 +279,40 @@ function setup_plugins()
 			json = {
 				require("formatter.filetypes.json").biome,
 			},
+			css = {
+				require("formatter.filetypes.css").prettier,
+			},
+			astro = {
+				function()
+					return {
+						exe = "prettier",
+						args = {
+							"--stdin-filepath",
+							util.escape_path(util.get_current_buffer_file_path()),
+							"--parser",
+							"astro",
+						},
+						stdin = true,
+						try_node_modules = true,
+					}
+				end,
+			},
 			lua = { require("formatter.filetypes.lua").stylua },
 			cpp = { require("formatter.filetypes.cpp").clangformat },
 			dart = { require("formatter.filetypes.dart").dartformat },
 			python = { require("formatter.filetypes.python").black },
 			go = { require("formatter.filetypes.go").goimports },
+			sql = {
+				function()
+					return {
+						exe = "sqlfmt",
+						args = {
+							"-",
+						},
+						stdin = true,
+					}
+				end,
+			},
 		},
 	})
 
@@ -442,7 +476,6 @@ function config_vim()
 end
 
 PLUGINS = {
-	{ "EdenEast/nightfox.nvim" },
 	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 	{ "shortcuts/no-neck-pain.nvim" },
 	{ "nvim-tree/nvim-web-devicons" },
@@ -506,9 +539,12 @@ PLUGINS = {
 		event = "InsertEnter",
 		config = true,
 	},
+	{ "windwp/nvim-ts-autotag" },
 }
 
 init_lazy_nvim()
 setup_plugins()
 define_keymaps()
 config_vim()
+
+vim.cmd("source ~/dotfiles/nvim/macmap.vim")
