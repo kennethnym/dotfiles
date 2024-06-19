@@ -22,6 +22,8 @@ wezterm.on("window-config-reloaded", function(window, pane)
 	end
 end)
 
+config.front_end = "OpenGL"
+
 config.font = wezterm.font("CommitMono")
 config.font_size = 14
 
