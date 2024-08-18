@@ -307,6 +307,9 @@ function setup_plugins()
 			css = {
 				require("formatter.filetypes.css").prettier,
 			},
+			rust = {
+				require("formatter.filetypes.rust").rustfmt,
+			},
 			astro = {
 				function()
 					return {
@@ -323,6 +326,7 @@ function setup_plugins()
 				end,
 			},
 			lua = { require("formatter.filetypes.lua").stylua },
+			c = { require("formatter.filetypes.c").clangformat },
 			cpp = { require("formatter.filetypes.cpp").clangformat },
 			dart = { require("formatter.filetypes.dart").dartformat },
 			python = { require("formatter.filetypes.python").black },
@@ -394,6 +398,7 @@ function setup_plugins()
 			{ name = "nvim_lsp" },
 			{ name = "luasnip" },
 			{ name = "buffer" },
+			{ name = "nvim_lsp_signature_help" },
 		}),
 	})
 
@@ -447,6 +452,17 @@ function config_vim()
 	vim.opt.pumheight = 10
 	vim.opt.scrolloff = 10
 	vim.opt.listchars = {}
+	vim.opt.termguicolors = true
+
+	vim.o.guifont = "CommitMono Nerd Font:h14"
+
+	vim.g.neovide_position_animation_length = 0
+	vim.g.neovide_cursor_animation_length = 0.00
+	vim.g.neovide_cursor_trail_size = 0
+	vim.g.neovide_cursor_animate_in_insert_mode = false
+	vim.g.neovide_cursor_animate_command_line = false
+	vim.g.neovide_scroll_animation_far_lines = 0
+	vim.g.neovide_scroll_animation_length = 0.00
 
 	vim.filetype.add({
 		extension = {
@@ -515,6 +531,7 @@ PLUGINS = {
 	{ "hrsh7th/cmp-path" },
 	{ "hrsh7th/cmp-cmdline" },
 	{ "hrsh7th/nvim-cmp" },
+	{ "hrsh7th/cmp-nvim-lsp-signature-help" },
 	{ "mhartington/formatter.nvim" },
 	{
 		"L3MON4D3/LuaSnip",
