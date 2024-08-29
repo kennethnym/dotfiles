@@ -2,6 +2,8 @@ my dotfiles.
 
 ![](./screenshots/sway.png)
 
+![](./screenshots/neovim.png)
+
 includes:
 
 - [starship](https://starship.rs)
