@@ -444,8 +444,14 @@ function setup_plugins()
 end
 
 function config_vim()
-	vim.opt.tabstop = 2
-	vim.opt.shiftwidth = 2
+	local default_tabwidth = 2
+	local override_tabwidth = {
+		cpp = 4,
+		go = 4,
+	}
+
+	vim.opt.tabstop = default_tabwidth
+	vim.opt.shiftwidth = default_tabwidth
 	vim.opt.number = true
 	vim.opt.relativenumber = true
 	vim.opt.laststatus = 3
@@ -498,9 +504,9 @@ function config_vim()
 		group = "__indentation__",
 		callback = function(opts)
 			local filetype = vim.bo[opts.buf].filetype
-			if filetype == "go" then
-				vim.opt.tabstop = 4
-				vim.opt.shiftwidth = 4
+			if override_tabwidth[filetype] ~= nil then
+				vim.opt.tabstop = override_tabwidth[filetype]
+				vim.opt.shiftwidth = override_tabwidth[filetype]
 			end
 		end,
 	})
