@@ -342,6 +342,7 @@ function setup_plugins()
 					}
 				end,
 			},
+			nix = { require("formatter.filetypes.nix").nixpkgs_fmt },
 		},
 	})
 

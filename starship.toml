@@ -5,6 +5,8 @@ $directory\
 $git_branch\
 $git_state\
 $git_status\
+$nix_shell\
+$python\
 $line_break\
 $character"""
 
@@ -43,3 +45,8 @@ style = "dimmed"
 [python]
 format = "[$virtualenv]($style) "
 style = "bright-black"
+
+[nix_shell]
+format = ' [$symbol$state( \($name\))]($style) '
+symbol = " "
+style = "dimmed purple"
