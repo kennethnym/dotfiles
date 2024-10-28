@@ -33,7 +33,7 @@ set $menu $rofi_cmd -show drun -display-run "hello"
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 # Requires: desktop-backgrounds-compat, swaybg
-output * bg /home/kenneth/Pictures/wallpaper/catwaves.png fill
+output * bg /home/kenneth/Pictures/wallpaper/wallhaven-72871o.png fill
 #
 # Example configuration:
 #
@@ -92,9 +92,9 @@ client.background        $base
     bindsym $mod+Shift+q kill
 
     # Start your launcher
-    bindsym $mod+d exec $menu
+    bindsym $mod+space exec $menu
 
-		bindsym $mod+Shift+e exec emojipick
+		bindsym $mod+Shift+e exec bemoji
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -146,6 +146,10 @@ client.background        $base
     bindsym $mod+8 workspace number 8
     bindsym $mod+9 workspace number 9
     bindsym $mod+0 workspace number 10
+		bindsym $mod+w workspace 󰖟
+		bindsym $mod+d workspace 󰙯 
+		bindsym $mod+o workspace 󰕃
+		bindsym $mod+m workspace 󰝚
     # Move focused container to workspace
     bindsym $mod+Shift+1 move container to workspace number 1
     bindsym $mod+Shift+2 move container to workspace number 2
@@ -157,6 +161,10 @@ client.background        $base
     bindsym $mod+Shift+8 move container to workspace number 8
     bindsym $mod+Shift+9 move container to workspace number 9
     bindsym $mod+Shift+0 move container to workspace number 10
+		bindsym $mod+Shift+w move container to workspace 󰖟
+		bindsym $mod+Shift+d move container to workspace 󰙯 
+		bindsym $mod+Shift+o move container to workspace 󰕃
+		bindsym $mod+Shift+m move container to workspace 󰝚
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
 #
@@ -170,17 +178,17 @@ client.background        $base
 
     # Switch the current container between different layout styles
     bindsym $mod+s layout stacking
-    bindsym $mod+w layout tabbed
+    bindsym $mod+t layout tabbed
     bindsym $mod+e layout toggle split
 
     # Make the current focus fullscreen
     bindsym $mod+f fullscreen
 
     # Toggle the current focus between tiling and floating mode
-    bindsym $mod+Shift+space floating toggle
+    bindsym $mod+Shift+f floating toggle
 
     # Swap focus between the tiling area and the floating area
-    bindsym $mod+space focus mode_toggle
+    bindsym $mod+Shift+space focus mode_toggle
 
     # Move focus to the parent container
     bindsym $mod+a focus parent
@@ -199,7 +207,6 @@ client.background        $base
 
     bindsym $mod+p       exec grimshot save active
 		bindsym $mod+Shift+p exec grimshot save area
-		bindsym $mod+Mod1+p  exec grimshot save output
 		bindsym $mod+Ctrl+p  exec grimshot save window
 #
 # Resizing containers:

@@ -19,7 +19,7 @@
         "disable-scroll": true,
         "all-outputs": true,
         "warp-on-scroll": false,
-        "format": "{icon}",
+        "format": "{name}",
         "format-icons": {
             "default": "",
 						"focused": ""
