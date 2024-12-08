@@ -15,6 +15,8 @@ function init_lazy_nvim()
 end
 
 function define_keymaps()
+	vim.api.nvim_set_keymap("n", "J", "10j", { noremap = true, silent = true })
+
 	-- space+f to open telescope browser in normal mode
 	vim.api.nvim_set_keymap("n", "<space>f", ":NvimTreeToggle<CR>", { noremap = true })
 
@@ -103,12 +105,12 @@ function setup_plugins()
 	require("auto-dark-mode").setup({
 		set_dark_mode = function()
 			vim.opt.background = "dark"
-			vim.cmd("colorscheme catppuccin-mocha")
+			vim.cmd("colorscheme rose-pine-moon")
 		end,
 
 		set_light_mode = function()
 			vim.opt.background = "light"
-			vim.cmd("colorscheme catppuccin-latte")
+			vim.cmd("colorscheme rose-pine-dawn")
 		end,
 	})
 
@@ -122,7 +124,7 @@ function setup_plugins()
 	})
 
 	require("nvim-tree").setup({
-		disable_netrw = true,
+		disable_netrw = false,
 		hijack_netrw = true,
 		respect_buf_cwd = true,
 		sync_root_with_cwd = true,
@@ -461,8 +463,9 @@ function config_vim()
 	vim.opt.listchars = {}
 	vim.opt.termguicolors = true
 
-	vim.o.guifont = "CommitMono Nerd Font:h14"
+	vim.o.guifont = "FiraCode Nerd Font:h14"
 
+	vim.g.neovide_floating_shadow = false
 	vim.g.neovide_position_animation_length = 0
 	vim.g.neovide_cursor_animation_length = 0.00
 	vim.g.neovide_cursor_trail_size = 0
@@ -525,6 +528,7 @@ end
 
 PLUGINS = {
 	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+	{ "rose-pine/neovim", name = "rose-pine" },
 	{ "shortcuts/no-neck-pain.nvim" },
 	{ "nvim-tree/nvim-web-devicons" },
 	{ "nvim-tree/nvim-tree.lua" },
@@ -590,6 +594,12 @@ PLUGINS = {
 		config = true,
 	},
 	{ "windwp/nvim-ts-autotag" },
+	{
+		"numToStr/Comment.nvim",
+		opts = {
+			-- add any options here
+		},
+	},
 }
 
 init_lazy_nvim()
