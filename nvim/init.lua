@@ -105,12 +105,12 @@ function setup_plugins()
 	require("auto-dark-mode").setup({
 		set_dark_mode = function()
 			vim.opt.background = "dark"
-			vim.cmd("colorscheme rose-pine-moon")
+			vim.cmd("colorscheme catppuccin-mocha")
 		end,
 
 		set_light_mode = function()
 			vim.opt.background = "light"
-			vim.cmd("colorscheme rose-pine-dawn")
+			vim.cmd("colorscheme catppuccin-latte")
 		end,
 	})
 
@@ -463,7 +463,7 @@ function config_vim()
 	vim.opt.listchars = {}
 	vim.opt.termguicolors = true
 
-	vim.o.guifont = "FiraCode Nerd Font:h14"
+	vim.o.guifont = "CommitMono Nerd Font:h14"
 
 	vim.g.neovide_floating_shadow = false
 	vim.g.neovide_position_animation_length = 0
@@ -528,7 +528,6 @@ end
 
 PLUGINS = {
 	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
-	{ "rose-pine/neovim", name = "rose-pine" },
 	{ "shortcuts/no-neck-pain.nvim" },
 	{ "nvim-tree/nvim-web-devicons" },
 	{ "nvim-tree/nvim-tree.lua" },

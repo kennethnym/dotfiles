@@ -47,10 +47,10 @@ end
 function scheme_for_appearance(appearance, overrides)
 	if appearance:find("Dark") then
 		on_dark_mode(overrides)
-		return "rose-pine-moon"
+		return "catppuccin-mocha"
 	else
 		on_light_mode(overrides)
-		return "rose-pine-dawn"
+		return "catppuccin-latte"
 	end
 end
 
@@ -64,7 +64,7 @@ wezterm.on("window-config-reloaded", function(window, pane)
 	end
 end)
 
-config.font = wezterm.font("Fira Code")
+config.font = wezterm.font("CommitMono")
 config.font_size = 14
 
 config.enable_tab_bar = false
