@@ -38,6 +38,10 @@ if [ ! -n "$linux" ]; then
 	if [ ! -d "$HOME/.config/neovide" ]; then
 		ln -s "$HOME/dotfiles/neovide" "$HOME/.config/neovide" || :
 	fi
+
+	if [ ! -d "$HOME/.config/ghostty" ]; then
+		ln -s "$HOME/dotfiles/ghostty" "$HOME/.config/ghostty" || :
+	fi
 else
 	# install sway
 	if [ ! -d "$HOME/.config/sway" ]; then

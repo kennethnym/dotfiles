@@ -1,0 +1,5 @@
+shell-integration = zsh
+font-family = CommitMono
+font-size = 14
+theme = dark:catppuccin-mocha,light:catppuccin-latte
+
