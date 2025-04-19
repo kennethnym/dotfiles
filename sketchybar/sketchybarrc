@@ -22,8 +22,8 @@ sketchybar --bar position=top height=40 blur_radius=30 color=0xfffaf4ed
 default=(
   padding_left=5
   padding_right=5
-  icon.font="FiraCode Nerd Font:Bold:17.0"
-  label.font="FiraCode Nerd Font:Bold:12.0"
+  icon.font="CommitMono Nerd Font:Bold:17.0"
+  label.font="CommitMono Nerd Font:Bold:12.0"
   icon.color=0xff575279
   label.color=0xff575279
   icon.padding_left=4
