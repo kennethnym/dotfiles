@@ -1,5 +1,7 @@
 shell-integration = zsh
-font-family = CommitMono
+font-family = SF Mono
 font-size = 14
-theme = dark:catppuccin-mocha,light:catppuccin-latte
+font-thicken = true
+theme = dark:catppuccin-macchiato,light:catppuccin-latte
+window-padding-x = 16
 

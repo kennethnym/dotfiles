@@ -1,26 +1,25 @@
 format = """
-$cmd_duration\
-[╭─](dimmed) \
 $directory\
 $git_branch\
-$git_state\
-$git_status\
 $nix_shell\
 $python\
 $line_break\
 $character"""
 
+
+# Starship modules
+[character]
+# Note the use of Catppuccin color 'peach'
+success_symbol = "[[󰄛](green) ❯](peach)"
+error_symbol = "[[󰄛](red) ❯](peach)"
+vimcmd_symbol = "[󰄛 ❮](subtext1)" # For use with zsh-vi-mode
+
 [directory]
-format = '[󰝰  $path]($style)'
+format = '[$path]($style)'
 style = "bold green"
 
-[character]
-success_symbol = "[╰─（✿ ◕ ᴗ◕\\)つ━━✫・*。](dimmed)"
-error_symbol = "[╰─](dimmed)[ Ψ\\(`_´ # \\)↝ ](red)"
-vimcmd_symbol = "[❮](green)"
-
 [git_branch]
-format = "  [  $branch]($style)"
+format = "  [ $branch]($style)"
 style = "yellow"
 
 [git_status]

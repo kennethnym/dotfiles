@@ -10,6 +10,9 @@ else
 	linux="";
 fi
 
+# install asdf tool-versions
+ln -s "$HOME/dotfiles/.tool-versions" "$HOME/.tool-versions"
+
 # install wezterm config
 ln -s "$HOME/dotfiles/.wezterm.lua" "$HOME/.wezterm.lua" || :
 

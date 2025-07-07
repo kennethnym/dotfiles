@@ -105,7 +105,7 @@ function setup_plugins()
 	require("auto-dark-mode").setup({
 		set_dark_mode = function()
 			vim.opt.background = "dark"
-			vim.cmd("colorscheme catppuccin-mocha")
+			vim.cmd("colorscheme catppuccin-macchiato")
 		end,
 
 		set_light_mode = function()
@@ -226,14 +226,9 @@ function setup_plugins()
 		},
 	}
 
-	require("mason").setup()
-	require("mason-lspconfig").setup()
-	require("mason-lspconfig").setup_handlers({
-		function(server_name)
-			local server = lsps[server_name] or {}
-			require("lspconfig")[server_name].setup(server)
-		end,
-	})
+	for lsp_name, config in pairs(lsps) do
+		vim.lsp.config[lsp_name] = config
+	end
 
 	require("lualine").setup({
 		options = {
@@ -350,6 +345,10 @@ function setup_plugins()
 
 	local cmp = require("cmp")
 	cmp.setup({
+		completion = {
+			autocomplete = false,
+		},
+
 		window = {
 			completion = {
 				winhighlight = "Normal:CmpNormal,FloatBorder:CmpNormal,Search:None",
@@ -532,8 +531,16 @@ PLUGINS = {
 	{ "nvim-tree/nvim-web-devicons" },
 	{ "nvim-tree/nvim-tree.lua" },
 	{ "nvim-lualine/lualine.nvim" },
-	{ "williamboman/mason.nvim" },
-	{ "williamboman/mason-lspconfig.nvim" },
+	{
+		"mason-org/mason-lspconfig.nvim",
+		opts = {
+			automatic_enable = true,
+		},
+		dependencies = {
+			{ "mason-org/mason.nvim", opts = {} },
+			"neovim/nvim-lspconfig",
+		},
+	},
 	{ "neovim/nvim-lspconfig" },
 	{ "onsails/lspkind.nvim" },
 	{ "hrsh7th/cmp-nvim-lsp" },
