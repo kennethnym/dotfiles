@@ -4,14 +4,14 @@ set -eu
 
 for arg in "$@"; do declare $arg='1'; done
 
-if [ ! -n "$macos" ];
+if [[ ! -n macos ]];
   then linux=1;
 else
 	linux="";
 fi
 
 # install asdf tool-versions
-ln -s "$HOME/dotfiles/.tool-versions" "$HOME/.tool-versions"
+ln -s "$HOME/dotfiles/.tool-versions" "$HOME/.tool-versions" || :
 
 # install wezterm config
 ln -s "$HOME/dotfiles/.wezterm.lua" "$HOME/.wezterm.lua" || :
@@ -23,8 +23,6 @@ fi
 
 # install starship config
 ln -s "$HOME/dotfiles/starship.toml" "$HOME/.config/starship.toml" || :
-
-echo $macos
 
 if [ ! -n "$linux" ]; then
 	# install aerospace config
