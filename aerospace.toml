@@ -56,7 +56,7 @@ inner.horizontal = 8
 inner.vertical =   8
 outer.left =       8
 outer.bottom =     8
-outer.top =        44
+outer.top =        8
 outer.right =      8
 
 # 'main' binding mode declaration
@@ -154,6 +154,11 @@ alt-shift-semicolon = 'mode service'
 alt-r = 'mode resize'
 
 alt-f = 'layout floating tiling'
+
+[workspace-to-monitor-force-assignment]
+3 = 'secondary'
+D = 'secondary'
+M = 'secondary'
 
 [mode.resize.binding]
 h = 'resize smart -50'
