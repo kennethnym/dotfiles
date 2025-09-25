@@ -2,6 +2,6 @@ shell-integration = zsh
 font-family = SF Mono
 font-size = 14
 font-thicken = true
-theme = dark:catppuccin-macchiato,light:catppuccin-latte
+theme = dark:catppuccin-mocha.conf,light:catppuccin-latte.conf
 window-padding-x = 16
 
