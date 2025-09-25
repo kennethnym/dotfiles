@@ -21,6 +21,10 @@ if [ ! -d "$HOME/.config/nvim" ]; then
 	ln -s "$HOME/dotfiles/nvim" "$HOME/.config/nvim" || :
 fi
 
+if [ ! -d "$HOME/.config/zed/settings.json" ]; then
+	ln -s "$HOME/dotfiles/zed/settings.json" "$HOME/.config/zed/settings.json" || :
+fi
+
 # install starship config
 ln -s "$HOME/dotfiles/starship.toml" "$HOME/.config/starship.toml" || :
 

@@ -1,0 +1,80 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "ssh_connections": [
+    {
+      "host": "0199809d-3add-7188-ad6d-345995ee7324.gitpod.environment",
+      "port_forwards": [{ "local_port": 5173, "remote_port": 5173 }],
+      "projects": [
+        {
+          "paths": ["/workspace/gitpod-next"]
+        }
+      ]
+    },
+    {
+      "host": "01995d42-f1cc-70e4-bf46-f223126298f7.gitpod.environment",
+      "port_forwards": [{ "local_port": 5173, "remote_port": 5173 }],
+      "projects": [
+        {
+          "paths": ["/workspace/gitpod-next/./"]
+        }
+      ]
+    }
+  ],
+  "vim_mode": true,
+  "icon_theme": {
+    "mode": "system",
+    "light": "Zed (Default)",
+    "dark": "Zed (Default)"
+  },
+  "base_keymap": "VSCode",
+  "buffer_font_family": "SF Mono",
+  "buffer_line_height": "standard",
+  "ui_font_size": 15,
+  "ui_font_family": "SF Mono",
+  "relative_line_numbers": true,
+  "buffer_font_size": 15,
+  "theme": {
+    "mode": "system",
+    "light": "Catppuccin Latte",
+    "dark": "Ayu Dark"
+  },
+  "tabs": {
+    "file_icons": true
+  },
+  "centered_layout": {
+    "left_padding": 0.3,
+    "right_padding": 0.3
+  },
+  "soft_wrap": "editor_width",
+  "profiles": {
+    "zen": {
+      "tab_bar": {
+        "show_nav_history_buttons": false
+      },
+      "toolbar": {
+        "breadcrumbs": false,
+        "quick_actions": false
+      },
+      "gutter": {
+        "breakpoints": false,
+        "runnables": false,
+        "min_line_number_digits": 0
+      },
+      "scrollbar": {
+        "show": "never",
+        "cursors": false
+      },
+      "centered_layout": {
+        "left_padding": 0.3,
+        "right_padding": 0.3
+      }
+    }
+  }
+}
