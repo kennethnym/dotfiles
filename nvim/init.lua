@@ -11,7 +11,11 @@ function init_lazy_nvim()
 		})
 	end
 	vim.opt.rtp:prepend(lazypath)
-	require("lazy").setup(PLUGINS, opts)
+	require("lazy").setup(PLUGINS, {
+		defaults = {
+			cond = vim.g.vscode,
+		},
+	})
 end
 
 function define_keymaps()
@@ -67,6 +71,27 @@ function define_keymaps()
 	vim.keymap.set("n", "<space>g", builtin.live_grep, {})
 	vim.keymap.set("n", "<space>b", builtin.buffers, {})
 	vim.keymap.set("n", "<space>u", builtin.lsp_references, {})
+end
+
+function define_vscode_keymaps()
+	local vscode = require("vscode")
+
+	local function action(command)
+		return function()
+			vscode.action(command)
+		end
+	end
+
+	vim.api.nvim_set_keymap("n", "J", "10j", { noremap = true, silent = true })
+	vim.keymap.set("n", "<space>e", action("editor.action.showHover"))
+	vim.keymap.set("n", "<space>d", action("editor.action.revealDefinition"))
+	vim.keymap.set("n", "<space>F", action("workbench.action.quickOpen"))
+	vim.keymap.set("n", "<space>f", action("workbench.view.explorer"))
+	vim.keymap.set("n", "<space>r", action("editor.action.rename"))
+	vim.keymap.set("n", "<space>g", action("workbench.action.findInFiles"))
+	vim.keymap.set("n", "[d", action("editor.action.marker.prevInFiles"))
+	vim.keymap.set("n", "]d", action("editor.action.marker.nextInFiles"))
+	vim.keymap.set("n", "<Esc>", action("workbench.action.closeSidebar"))
 end
 
 function setup_plugins()
@@ -598,6 +623,7 @@ PLUGINS = {
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
 		config = true,
+		cond = vim.g.vscode,
 	},
 	{ "windwp/nvim-ts-autotag" },
 	{
@@ -610,7 +636,12 @@ PLUGINS = {
 
 init_lazy_nvim()
 setup_plugins()
-define_keymaps()
 config_vim()
+
+if vim.g.vscode then
+	define_vscode_keymaps()
+else
+	define_keymaps()
+end
 
 vim.cmd("source ~/dotfiles/nvim/macmap.vim")
