@@ -11,11 +11,7 @@ function init_lazy_nvim()
 		})
 	end
 	vim.opt.rtp:prepend(lazypath)
-	require("lazy").setup(PLUGINS, {
-		defaults = {
-			cond = vim.g.vscode,
-		},
-	})
+	require("lazy").setup(PLUGINS, {})
 end
 
 function define_keymaps()
@@ -634,13 +630,12 @@ PLUGINS = {
 	},
 }
 
-init_lazy_nvim()
-setup_plugins()
-config_vim()
-
 if vim.g.vscode then
 	define_vscode_keymaps()
 else
+	init_lazy_nvim()
+	setup_plugins()
+	config_vim()
 	define_keymaps()
 end
 
