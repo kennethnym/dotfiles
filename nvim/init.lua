@@ -123,18 +123,6 @@ function setup_plugins()
 		},
 	})
 
-	require("auto-dark-mode").setup({
-		set_dark_mode = function()
-			vim.opt.background = "dark"
-			vim.cmd("colorscheme catppuccin-macchiato")
-		end,
-
-		set_light_mode = function()
-			vim.opt.background = "light"
-			vim.cmd("colorscheme catppuccin-latte")
-		end,
-	})
-
 	require("no-neck-pain").setup({
 		width = 120,
 		fallbackOnBufferDelete = true,
@@ -473,6 +461,8 @@ function config_vim()
 		go = 4,
 	}
 
+	vim.cmd.colorscheme("catppuccin")
+
 	vim.opt.tabstop = default_tabwidth
 	vim.opt.shiftwidth = default_tabwidth
 	vim.opt.number = true
@@ -577,7 +567,6 @@ PLUGINS = {
 		build = "make install_jsregexp",
 	},
 	{ "voldikss/vim-floaterm" },
-	{ "f-person/auto-dark-mode.nvim" },
 	{
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.6",
@@ -638,5 +627,3 @@ else
 	config_vim()
 	define_keymaps()
 end
-
-vim.cmd("source ~/dotfiles/nvim/macmap.vim")
