@@ -1,70 +1,82 @@
 #!/bin/bash
+set -euo pipefail
 
-set -eu
+# Parse flags like: ./install.sh macos=1 linux=1
+for arg in "$@"; do declare "$arg"='1'; done
 
-for arg in "$@"; do declare $arg='1'; done
-
-if [[ ! -n macos ]];
-  then linux=1;
+# Determine OS if not explicitly provided
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  macos="${macos:-1}"
+  linux="${linux:-}"
 else
-	linux="";
+  linux="${linux:-1}"
+  macos="${macos:-}"
 fi
 
-# install asdf tool-versions
-ln -s "$HOME/dotfiles/.tool-versions" "$HOME/.tool-versions" || :
+need_cmd() { command -v "$1" >/dev/null 2>&1; }
 
-# install wezterm config
-ln -s "$HOME/dotfiles/.wezterm.lua" "$HOME/.wezterm.lua" || :
+install_neovim_linux() {
+  # Install latest stable Neovim from GitHub releases (official tarball)
+  local tmp
+  tmp="$(mktemp -d)"
+  trap 'rm -rf "$tmp"' RETURN
+
+  local url="https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
+  curl -L "$url" -o "$tmp/nvim.tar.gz"
+
+  sudo rm -rf /opt/nvim
+  sudo mkdir -p /opt
+  sudo tar -C /opt -xzf "$tmp/nvim.tar.gz"
+  sudo mv /opt/nvim-linux64 /opt/nvim
+
+  # Ensure /usr/local/bin exists and symlink nvim
+  sudo ln -sf /opt/nvim/bin/nvim /usr/local/bin/nvim
+}
+
+install_neovim_macos() {
+  if need_cmd brew; then
+    brew install neovim
+  else
+    echo "Homebrew not found. Install brew or neovim manually." >&2
+    return 1
+  fi
+}
+
+ensure_neovim() {
+  if need_cmd nvim; then
+    return 0
+  fi
+
+  echo "neovim not found; installing..."
+  if [[ -n "${linux:-}" ]]; then
+    install_neovim_linux
+  else
+    install_neovim_macos
+  fi
+}
+
+# --- Ensure nvim installed before linking config ---
+ensure_neovim
 
 # install neovim config
 if [ ! -d "$HOME/.config/nvim" ]; then
-	ln -s "$HOME/dotfiles/nvim" "$HOME/.config/nvim" || :
-fi
-
-if [ ! -d "$HOME/.config/zed/settings.json" ]; then
-	ln -s "$HOME/dotfiles/zed" "$HOME/.config/zed" || :
+  mkdir -p "$HOME/.config"
+  ln -s "$HOME/dotfiles/nvim" "$HOME/.config/nvim" || :
 fi
 
 # install starship config
+mkdir -p "$HOME/.config"
 ln -s "$HOME/dotfiles/starship.toml" "$HOME/.config/starship.toml" || :
 
-if [ ! -n "$linux" ]; then
-	# install aerospace config
-	ln -s "$HOME/dotfiles/aerospace.toml" "$HOME/.aerospace.toml" || :
+if [ ! -n "${linux:-}" ]; then
+  ln -s "$HOME/dotfiles/aerospace.toml" "$HOME/.aerospace.toml" || :
 
-	if [ ! -d "$HOME/.config/sketchybar" ]; then
-		ln -s "$HOME/dotfiles/sketchybar" "$HOME/.config/sketchybar" || :
-	fi
-
-	if [ ! -d "$HOME/.config/borders" ]; then
-		ln -s "$HOME/dotfiles/borders" "$HOME/.config/borders" || :
-	fi
-
-	if [ ! -d "$HOME/.config/neovide" ]; then
-		ln -s "$HOME/dotfiles/neovide" "$HOME/.config/neovide" || :
-	fi
-
-	if [ ! -d "$HOME/.config/ghostty" ]; then
-		ln -s "$HOME/dotfiles/ghostty" "$HOME/.config/ghostty" || :
-	fi
+  for d in sketchybar borders neovide ghostty; do
+    [ -d "$HOME/.config/$d" ] || ln -s "$HOME/dotfiles/$d" "$HOME/.config/$d" || :
+  done
 else
-	# install sway
-	if [ ! -d "$HOME/.config/sway" ]; then
-		ln -s "$HOME/dotfiles/sway" "$HOME/.config/sway" || :
-	fi
-
-	# install waybar
-	if [ ! -d "$HOME/.config/waybar" ]; then
-		ln -s "$HOME/dotfiles/waybar" "$HOME/.config/waybar" || :
-	fi
-
-	# install rofi
-	if [ ! -d "$HOME/.config/rofi" ]; then
-		ln -s "$HOME/dotfiles/rofi" "$HOME/.config/rofi" || :
-	fi
-
-	# install rofi
-	if [ ! -d "$HOME/.config/dunst" ]; then
-		ln -s "$HOME/dotfiles/dunst" "$HOME/.config/dunst" || :
-	fi
+  for d in sway waybar rofi dunst; do
+    [ -d "$HOME/.config/$d" ] || ln -s "$HOME/dotfiles/$d" "$HOME/.config/$d" || :
+  done
 fi
+
