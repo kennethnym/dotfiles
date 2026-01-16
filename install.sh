@@ -27,9 +27,13 @@ install_neovim() {
     return 1
   fi
 
-  # Linux (curl-based install, NOT AppImage): download official tarball and install into ~/.local
+  # Linux: curl official tarball, install under /opt, symlink to /usr/local/bin (no AppImage)
   if ! command -v curl >/dev/null 2>&1; then
     echo "curl is required to install Neovim on Linux." >&2
+    return 1
+  fi
+  if ! command -v tar >/dev/null 2>&1; then
+    echo "tar is required to install Neovim on Linux." >&2
     return 1
   fi
 
@@ -38,36 +42,24 @@ install_neovim() {
     x86_64) nvim_arch="linux-x86_64" ;;
     aarch64|arm64) nvim_arch="linux-arm64" ;;
     *)
-      echo "Unsupported architecture for tarball install: $arch" >&2
+      echo "Unsupported architecture for Neovim tarball install: $arch" >&2
       return 1
       ;;
   esac
 
-  base="$HOME/.local"
-  mkdir -p "$base/bin"
-
   tmpdir="$(mktemp -d)"
   trap 'rm -rf "$tmpdir"' EXIT
 
-  # Stable release tarball (change v* URL if you want nightly)
   url="https://github.com/neovim/neovim/releases/latest/download/nvim-${nvim_arch}.tar.gz"
   curl -fsSL "$url" -o "$tmpdir/nvim.tar.gz"
-
   tar -xzf "$tmpdir/nvim.tar.gz" -C "$tmpdir"
 
-  # The extracted folder is named nvim-linux-<arch>
   src_dir="$tmpdir/nvim-${nvim_arch}"
 
-  # Install by replacing ~/.local/nvim
-  rm -rf "$base/nvim"
-  mv "$src_dir" "$base/nvim"
-
-  # Symlink binary into ~/.local/bin
-  ln -sf "$base/nvim/bin/nvim" "$base/bin/nvim"
-
-  if ! printf '%s' "${PATH:-}" | tr ':' '\n' | grep -qx "$base/bin"; then
-    echo "Installed nvim to $base/bin/nvim. Ensure $base/bin is in your PATH." >&2
-  fi
+  # Install to /opt/nvim (replace if present), then symlink binary
+  sudo rm -rf /opt/nvim
+  sudo mv "$src_dir" /opt/nvim
+  sudo ln -sf /opt/nvim/bin/nvim /usr/local/bin/nvim
 }
 
 mkdir -p "$HOME/.config"
