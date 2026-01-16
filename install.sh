@@ -23,8 +23,8 @@ install_neovim_linux() {
   trap 'rm -rf "$tmp"' RETURN
 
   case "$arch" in
-    x86_64|amd64) url="https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz" ;;
-    aarch64|arm64) url="https://github.com/neovim/neovim/releases/latest/download/nvim-linuxarm64.tar.gz" ;;
+    x86_64|amd64) url="https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz" ;;
+    aarch64|arm64) url="https://github.com/neovim/neovim/releases/latest/download/nvim-linux-arm64.tar.gz" ;;
     *)
       echo "Unsupported architecture: $arch" >&2
       return 1
