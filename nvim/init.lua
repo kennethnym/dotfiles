@@ -67,6 +67,11 @@ function define_keymaps()
 	vim.keymap.set("n", "<space>g", builtin.live_grep, {})
 	vim.keymap.set("n", "<space>b", builtin.buffers, {})
 	vim.keymap.set("n", "<space>u", builtin.lsp_references, {})
+
+	local conform = require("conform")
+	vim.keymap.set("n", "<space>=", function()
+		conform.format({ timeout_ms = 2000, lsp_fallback = true })
+	end, { noremap = true, silent = true })
 end
 
 function define_vscode_keymaps()
@@ -304,63 +309,65 @@ function setup_plugins()
 		extensions = {},
 	})
 
-	local util = require("formatter.util")
-	require("formatter").setup({
-		filetype = {
-			javascript = {
-				require("formatter.filetypes.javascript").biome,
+	local conform = require("conform")
+	conform.setup({
+		-- Pick the first formatter that exists on disk (or in node_modules/.bin if you use that)
+		-- for filetypes where you list multiple options.
+		formatters_by_ft = {
+			javascript = { "biome", "oxfmt", "prettier", stop_after_first = true },
+			javascriptreact = { "biome", "oxfmt", "prettier", stop_after_first = true },
+			typescript = { "biome", "oxfmt", "prettier", stop_after_first = true },
+			typescriptreact = { "biome", "oxfmt", "prettier", stop_after_first = true },
+
+			-- If you want JSON to prefer biome, then prettier fallback:
+			json = { "biome", "prettier", stop_after_first = true },
+
+			css = { "prettier" },
+
+			rust = { "rustfmt" },
+			lua = { "stylua" },
+			c = { "clang_format" },
+			cpp = { "clang_format" },
+			dart = { "dart_format" },
+			python = { "black" },
+			go = { "goimports" },
+
+			-- sqlfmt reads stdin, outputs formatted sql
+			sql = { "sqlfmt" },
+
+			nix = { "nixpkgs_fmt" },
+
+			-- Astro: prefer prettier with astro parser, with biome/oxfmt fallback if you want:
+			astro = { "prettier_astro", "biome", "oxfmt", stop_after_first = true },
+		},
+
+		formatters = {
+			-- Biome builtin works for JS/TS/JSON; this is optional unless you want overrides.
+			biome = {
+				command = "biome",
+				args = { "format", "--stdin-file-path", "$FILENAME" },
+				stdin = true,
 			},
-			javascriptreact = {
-				require("formatter.filetypes.javascriptreact").biome,
+
+			-- oxfmt usually formats files (no stdin). Conform will run it on the file path.
+			oxfmt = {
+				command = "oxfmt",
+				args = { "--write", "$FILENAME" },
+				stdin = false,
 			},
-			typescript = {
-				require("formatter.filetypes.typescript").biome,
+
+			-- Prettier for Astro (explicit parser). Uses stdin.
+			prettier_astro = {
+				command = "prettier",
+				args = { "--stdin-filepath", "$FILENAME", "--parser", "astro" },
+				stdin = true,
 			},
-			typescriptreact = {
-				require("formatter.filetypes.typescriptreact").biome,
+
+			sqlfmt = {
+				command = "sqlfmt",
+				args = { "-" },
+				stdin = true,
 			},
-			json = {
-				require("formatter.filetypes.json").biome,
-			},
-			css = {
-				require("formatter.filetypes.css").prettier,
-			},
-			rust = {
-				require("formatter.filetypes.rust").rustfmt,
-			},
-			astro = {
-				function()
-					return {
-						exe = "prettier",
-						args = {
-							"--stdin-filepath",
-							util.escape_path(util.get_current_buffer_file_path()),
-							"--parser",
-							"astro",
-						},
-						stdin = true,
-						try_node_modules = true,
-					}
-				end,
-			},
-			lua = { require("formatter.filetypes.lua").stylua },
-			c = { require("formatter.filetypes.c").clangformat },
-			cpp = { require("formatter.filetypes.cpp").clangformat },
-			dart = { require("formatter.filetypes.dart").dartformat },
-			python = { require("formatter.filetypes.python").black },
-			go = { require("formatter.filetypes.go").goimports },
-			sql = {
-				function()
-					return {
-						exe = "sqlfmt",
-						args = {
-							"-",
-						},
-						stdin = true,
-					}
-				end,
-			},
-			nix = { require("formatter.filetypes.nix").nixpkgs_fmt },
 		},
 	})
 
@@ -517,12 +524,19 @@ function config_vim()
 	local augroup = vim.api.nvim_create_augroup
 	local autocmd = vim.api.nvim_create_autocmd
 
-	augroup("__formatter__", { clear = true })
-	autocmd("BufWritePost", {
-		group = "__formatter__",
-		command = ":FormatWrite",
-	})
+	local conform = require("conform")
 
+	augroup("__formatter__", { clear = true })
+	autocmd("BufWritePre", {
+		group = "__formatter__",
+		callback = function(args)
+			conform.format({
+				bufnr = args.buf,
+				timeout_ms = 2000,
+				lsp_fallback = true,
+			})
+		end,
+	})
 	augroup("__indentation__", { clear = true })
 	autocmd("FileType", {
 		group = "__indentation__",
@@ -570,7 +584,7 @@ PLUGINS = {
 	{ "hrsh7th/cmp-cmdline" },
 	{ "hrsh7th/nvim-cmp" },
 	{ "hrsh7th/cmp-nvim-lsp-signature-help" },
-	{ "mhartington/formatter.nvim" },
+	{ "stevearc/conform.nvim" },
 	{
 		"L3MON4D3/LuaSnip",
 		-- install jsregexp (optional!).
