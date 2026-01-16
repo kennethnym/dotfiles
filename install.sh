@@ -22,7 +22,7 @@ install_neovim_linux() {
   trap 'rm -rf "$tmp"' RETURN
 
   local url="https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
-  curl -L "$url" -o "$tmp/nvim.tar.gz"
+  curl -fL --retry 3 --retry-delay 1 -o "$tmp/nvim.tar.gz" "$url"
 
   sudo rm -rf /opt/nvim
   sudo mkdir -p /opt
